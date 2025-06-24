@@ -16,8 +16,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeExchange(authz -> authz
                 .pathMatchers("/actuator/**").permitAll()
-                .pathMatchers("/api/member/**").permitAll()
-                .pathMatchers("/api/oauth/**").permitAll()
+                .pathMatchers("/api/user/**").permitAll()
                 .pathMatchers("/**").permitAll()
             )
             .httpBasic(httpBasic -> httpBasic.disable())
