@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: trippick_api_gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        # Member Service
+        - id: member-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - StripPrefix=1
+        
+        # OAuth Kakao Service
+        - id: oauth-kakao-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/oauth/**
+          filters:
+            - StripPrefix=1
+        
+        # Frontend Static Files
+        - id: frontend-service
+          uri: http://localhost:5173
+          predicates:
+            - Path=/**
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID:0eaeed688e2125753c1a0ebf4df023be}
+            client-secret: ${KAKAO_CLIENT_SECRET:R8SJIrR9vC8lipNifZFSD93q9NxRRpXc}
+            redirect-uri: ${KAKAO_REDIRECT_URI:http://localhost:8080/api/user/v1/auth/kakao/callback}
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_post
+            scope:
+              - profile_nickname
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
