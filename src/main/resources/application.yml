@@ -1,6 +1,8 @@
 spring:
   application:
     name: trippick_api_gateway
+  profiles:
+    active: local
   cloud:
     gateway:
       discovery:

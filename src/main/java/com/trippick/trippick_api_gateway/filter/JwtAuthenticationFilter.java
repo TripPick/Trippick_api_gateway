@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 @Component
 public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAuthenticationFilter.Config> {
@@ -47,9 +48,9 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
         return token != null && !token.isEmpty();
     }
 
-    private org.springframework.web.server.ServerWebExchange onError(ServerWebExchange exchange, String err, HttpStatus httpStatus) {
+    private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus) {
         exchange.getResponse().setStatusCode(httpStatus);
-        return exchange;
+        return exchange.getResponse().setComplete();
     }
 
     public static class Config {
