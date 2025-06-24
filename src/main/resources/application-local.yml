@@ -28,7 +28,14 @@ spring:
 server:
   port: 8080
 
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # 0.0 ~ 1.0 사이 값(모든 요청을 트레이싱하려면1.0)
 logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    com.trippick.trippick_api_gateway: DEBUG
+  pattern:
+    level: "%5p [%X{traceId},%X{spanId}]" # 로그에traceId, spanId추가
+
+jwt:
+  header: Authorization
+  secret-key: trippickjwtsecretkey2025verysecuretrippickjwtsecretkey2025verysecure
