@@ -4,7 +4,7 @@ spring:
       routes:
         # Member Service (로컬 포트 8081)
         - id: member-service
-          uri: http://localhost:8081
+          uri: http://localhost:8080
           predicates:
             - Path=/api/member/**
           filters:
@@ -12,7 +12,7 @@ spring:
         
         # OAuth Kakao Service (로컬 포트 8085)
         - id: oauth-kakao-service
-          uri: http://localhost:8085
+          uri: http://localhost:8080
           predicates:
             - Path=/api/oauth/**
           filters:
