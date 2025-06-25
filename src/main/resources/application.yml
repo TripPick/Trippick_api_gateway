@@ -2,6 +2,10 @@ spring:
   application:
     name: trippick_api_gateway
 
+  cloud:
+    config:
+      enabled: false
+
   security:
     oauth2:
       client:
